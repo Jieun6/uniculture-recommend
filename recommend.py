@@ -44,7 +44,6 @@ def preprocessing(df):
 def get_results(df, id):
     df = convert_to_dataframe(df)
 
-    print(df)
 
     df = preprocessing(df)
 
@@ -80,5 +79,17 @@ def get_results(df, id):
         print(df)
         print(df['id'].to_list())
         return df['id'].to_list()
-    
-    elif
+    elif '언어교류' in my_purpose:
+        minmax_scaler = MinMaxScaler()
+        df['similarity'] = 0.3*df['purpose_similarity'] + 0.2*df['interest_similarity'] + 0.5*df['language_similarity']
+        df = df.sort_values(by="similarity", ascending=False)
+        print(df)
+        print(df['id'].to_list())
+        return df['id'].to_list()
+    elif '문화교류' in my_purpose:
+        minmax_scaler = MinMaxScaler()
+        df['similarity'] = 0.3*df['purpose_similarity'] + 0.2*df['interest_similarity'] + 0.5*df['language_similarity']
+        df = df.sort_values(by="similarity", ascending=False)
+        print(df)
+        print(df['id'].to_list())
+        return df['id'].to_list()
