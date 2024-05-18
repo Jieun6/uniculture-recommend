@@ -18,7 +18,7 @@ def recommend():
     my_profile_id = request.get_json()['id']
     profile_list = request.get_json()['profiles']
     df_result = get_results(profile_list, my_profile_id)
-    return api_response(200, "추천 목록 조회 성공", {"sortedIdList": df_result}), 200
+    return api_response(200, "추천 목록 조회 성공", {"sortedList": df_result}), 200
 
 
 @app.route('/')

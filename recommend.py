@@ -47,7 +47,7 @@ def get_results(df, id):
 
     df = preprocessing(df)
 
-    print(df)
+    # print(df)
 
     # CountVectorizer
     count_vect = CountVectorizer(ngram_range=(1, 1))
@@ -56,9 +56,9 @@ def get_results(df, id):
     can_mat = count_vect.fit_transform(df['can'])
     want_mat = count_vect.fit_transform(df['want'])
 
-    print(can_mat)
-    print('-----------------')
-    print(want_mat)
+    # print(can_mat)
+    # print('-----------------')
+    # print(want_mat)
 
     # calculate cosine similarity
     purpose_sim = cosine_similarity(purpose_mat, purpose_mat)
@@ -69,10 +69,11 @@ def get_results(df, id):
     profile = df[df['id'] == id]
     profile_idx = profile.index.values
 
-    print(purpose_sim[profile_idx, :])
-    print(purpose_sim[profile_idx, :].reshape(-1,1))
-    print(interest_sim[profile_idx, :])
-    print(lan_sim[profile_idx, :])
+    # print(purpose_sim[profile_idx, :])
+    # print(purpose_sim[profile_idx, :].reshape(-1,1))
+    # print(interest_sim[profile_idx, :])
+    # print(lan_sim[profile_idx, :])
+    
     # add similarity column
     df["purpose_similarity"] = purpose_sim[profile_idx, :].reshape(-1, 1)
     df["interest_similarity"] = interest_sim[profile_idx, :].reshape(-1, 1)
@@ -85,8 +86,10 @@ def get_results(df, id):
         df['similarity'] = 0.3*df['purpose_similarity'] + 0.5*df['interest_similarity'] + 0.2*df['language_similarity']
         df = df.sort_values(by="similarity", ascending=False)
         df['similarity'] = (df['similarity'] * 100).round().astype(int)
+        df.drop(df[df['id'] == id].index, inplace=True)
         df = df.head(10)
         print(df['id'].to_list())
+        print(df['similarity'].to_list())
         dict2 = dict(zip(df['id'], df['similarity']))
         return dict2;
     elif '언어교류' in my_purpose:
@@ -94,8 +97,11 @@ def get_results(df, id):
         df['similarity'] = 0.3*df['purpose_similarity'] + 0.2*df['interest_similarity'] + 0.5*df['language_similarity']
         df = df.sort_values(by="similarity", ascending=False)
         df['similarity'] = (df['similarity'] * 100).round().astype(int)
+        print(df)
+        df.drop(df[df['id'] == id].index, inplace=True)
         df = df.head(10)
         print(df['id'].to_list())
+        print(df['similarity'].to_list())
         dict2 = dict(zip(df['id'], df['similarity']))
         return dict2;
 
@@ -104,7 +110,9 @@ def get_results(df, id):
         df['similarity'] = 0.3*df['purpose_similarity'] + 0.4*df['interest_similarity'] + 0.3*df['language_similarity']
         df = df.sort_values(by="similarity", ascending=False)
         df['similarity'] = (df['similarity'] * 100).round().astype(int)
+        df.drop(df[df['id'] == id].index, inplace=True)
         df = df.head(10)
         print(df['id'].to_list())
+        print(df['similarity'].to_list())
         dict2 = dict(zip(df['id'], df['similarity']))
         return dict2;
